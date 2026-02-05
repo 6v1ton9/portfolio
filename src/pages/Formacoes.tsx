@@ -1,5 +1,5 @@
 import { MapPin, Calendar, GraduationCap } from "lucide-react";
-import "./formacoes.css";
+import "./Formacoes.css";
 
 type FormacaoItem = {
   titulo: string;

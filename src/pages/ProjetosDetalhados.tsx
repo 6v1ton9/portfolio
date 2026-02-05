@@ -8,7 +8,7 @@ import {
   Github,
 } from "lucide-react";
 import { getProjectBySlug } from "../data/projects";
-import "./projeto-detalhes.css";
+import "./Projeto-detalhes.css";
 import { useTheme } from "../theme/ThemeContext"; // ajuste o path
 
 type ThemeMode = "light" | "dark";

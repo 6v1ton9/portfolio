@@ -1,5 +1,5 @@
 import { Download, ExternalLink, FileText } from "lucide-react";
-import "./curriculo.css";
+import "./Curriculo.css";
 
 export default function Curriculo() {
   const pdfUrl = "/curriculo-victor.pdf";

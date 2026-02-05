@@ -1,6 +1,6 @@
     import { ArrowRight, Bot, Code2, Wrench } from "lucide-react";
     import { Link } from "react-router-dom";
-    import "./home.css";
+    import "./Home.css";
 
 
     export default function Home() {
