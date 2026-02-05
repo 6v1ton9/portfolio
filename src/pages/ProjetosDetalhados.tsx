@@ -1,4 +1,5 @@
-import { useEffect, useMemo, useState } from "react";
+// src/pages/ProjetosDetalhados.tsx (ou ProjetoDetalhes.tsx)
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import {
   ArrowLeft,
@@ -9,12 +10,27 @@ import {
 } from "lucide-react";
 import { getProjectBySlug } from "../data/projects";
 import "./Projeto-detalhes.css";
-import { useTheme } from "../theme/ThemeContext"; // ajuste o path
+import { useTheme } from "../theme/ThemeContext";
 
 type ThemeMode = "light" | "dark";
 
 function shotSrc(base: string, theme: ThemeMode) {
   return `${base}.${theme}.PNG`;
+}
+
+// Detecta "mobile" por breakpoint (mesmo do CSS)
+function useIsMobile(breakpoint = 860) {
+  const [isMobile, setIsMobile] = useState(() =>
+    typeof window === "undefined" ? false : window.innerWidth <= breakpoint
+  );
+
+  useEffect(() => {
+    const onResize = () => setIsMobile(window.innerWidth <= breakpoint);
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, [breakpoint]);
+
+  return isMobile;
 }
 
 export default function ProjetoDetalhes() {
@@ -28,36 +44,60 @@ export default function ProjetoDetalhes() {
   const [active, setActive] = useState(0);
 
   const { theme } = useTheme();
-
-  // Proteção: se o ThemeContext tiver mais temas no futuro, cai no light/dark
   const resolvedTheme: ThemeMode = theme === "dark" ? "dark" : "light";
-
   const hasShots = shots.length > 0;
 
-  // ❗️Bloqueia scroll da página (viewport “travado”)
+  const isMobile = useIsMobile(860);
+
+  // ✅ Só bloqueia scroll no DESKTOP (no mobile deixa rolar)
   useEffect(() => {
+    if (isMobile) return;
     const prev = document.body.style.overflow;
     document.body.style.overflow = "hidden";
     return () => {
       document.body.style.overflow = prev;
     };
-  }, []);
+  }, [isMobile]);
 
   useEffect(() => {
-    // se trocar de projeto e tiver menos imagens, corrige o índice
     if (shots.length > 0) setActive((v) => Math.min(v, shots.length - 1));
   }, [shots.length]);
 
-  // (opcional) pré-carrega o outro tema pra não “piscar” ao alternar
+  // (opcional) pré-carrega o outro tema pra não “piscar”
   useEffect(() => {
     if (!hasShots) return;
-
     const other: ThemeMode = resolvedTheme === "dark" ? "light" : "dark";
     shots.forEach((s) => {
       const img = new Image();
       img.src = shotSrc(s.base, other);
     });
   }, [resolvedTheme, hasShots, shots]);
+
+  const prevShot = () =>
+    setActive((v) => (v - 1 + shots.length) % shots.length);
+  const nextShot = () => setActive((v) => (v + 1) % shots.length);
+
+  // ✅ Swipe simples no mobile (sem lib)
+  const touchStartX = useRef<number | null>(null);
+
+  const onTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0]?.clientX ?? null;
+  };
+
+  const onTouchEnd = (e: React.TouchEvent) => {
+    const start = touchStartX.current;
+    const end = e.changedTouches[0]?.clientX ?? null;
+    if (start == null || end == null) return;
+
+    const dx = end - start;
+    const threshold = 40; // px
+    if (Math.abs(dx) < threshold) return;
+
+    if (dx > 0) prevShot();
+    else nextShot();
+
+    touchStartX.current = null;
+  };
 
   if (!project) {
     return (
@@ -73,10 +113,6 @@ export default function ProjetoDetalhes() {
       </section>
     );
   }
-
-  const prevShot = () =>
-    setActive((v) => (v - 1 + shots.length) % shots.length);
-  const nextShot = () => setActive((v) => (v + 1) % shots.length);
 
   return (
     <section className="projectDetailPage">
@@ -94,34 +130,19 @@ export default function ProjetoDetalhes() {
           {(project.links?.github || project.links?.live || project.links?.demo) && (
             <div className="projectLinks">
               {project.links?.github && (
-                <a
-                  className="projLink"
-                  href={project.links.github}
-                  target="_blank"
-                  rel="noreferrer"
-                >
+                <a className="projLink" href={project.links.github} target="_blank" rel="noreferrer">
                   <Github size={18} />
                   GitHub
                 </a>
               )}
               {project.links?.live && (
-                <a
-                  className="projLink"
-                  href={project.links.live}
-                  target="_blank"
-                  rel="noreferrer"
-                >
+                <a className="projLink" href={project.links.live} target="_blank" rel="noreferrer">
                   <ExternalLink size={18} />
                   Live
                 </a>
               )}
               {project.links?.demo && (
-                <a
-                  className="projLink"
-                  href={project.links.demo}
-                  target="_blank"
-                  rel="noreferrer"
-                >
+                <a className="projLink" href={project.links.demo} target="_blank" rel="noreferrer">
                   <ExternalLink size={18} />
                   Demo
                 </a>
@@ -152,7 +173,11 @@ export default function ProjetoDetalhes() {
 
         {/* DIREITA: carrossel */}
         <main className="projectMedia">
-          <div className="carouselMain">
+          <div
+            className="carouselMain"
+            onTouchStart={isMobile ? onTouchStart : undefined}
+            onTouchEnd={isMobile ? onTouchEnd : undefined}
+          >
             {hasShots ? (
               <>
                 <button
@@ -161,7 +186,7 @@ export default function ProjetoDetalhes() {
                   aria-label="Imagem anterior"
                   type="button"
                 >
-                  <ChevronLeft size={20} />
+                  <ChevronLeft size={22} />
                 </button>
 
                 <img
@@ -177,7 +202,7 @@ export default function ProjetoDetalhes() {
                   aria-label="Próxima imagem"
                   type="button"
                 >
-                  <ChevronRight size={20} />
+                  <ChevronRight size={22} />
                 </button>
 
                 <div className="carouselCaption">{shots[active].alt}</div>
@@ -191,7 +216,7 @@ export default function ProjetoDetalhes() {
           </div>
 
           {hasShots && (
-            <div className="thumbs">
+            <div className="thumbs" aria-label="Miniaturas">
               {shots.map((s, i) => (
                 <button
                   key={s.base}

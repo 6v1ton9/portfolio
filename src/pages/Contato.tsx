@@ -142,8 +142,11 @@ export default function Contato() {
         <aside className="contactSide">
           <h3 className="sideTitle">Mensagem rápida</h3>
           <p className="sideText">
-            (Placeholder) Aqui você pode colocar um texto curto do tipo:
-            “Estou disponível para oportunidades como dev júnior / suporte / automações”.
+Sou um jovem estudante de ciência de dados e estou em busca de uma oportunidade na área de
+desenvolvimento. Tenho facilidade de aprendizado, sou dinâmico e comprometido, sempre
+disposto a me aprimorar e contribuir para o crescimento da empresa. Meu objetivo é aplicar os
+conhecimentos adquiridos na faculdade e desenvolver minhas habilidades na prática, agregando
+valor ao time e evoluindo profissionalmente.
           </p>
 
           <div className="sideBox">

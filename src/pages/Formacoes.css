@@ -129,3 +129,196 @@
   }
 }
   
+/* src/pages/Formacoes.css */
+
+/* Página ocupa a tela toda (background vem do body/global) */
+.pageSection{
+  width: 100%;
+  min-height: calc(100vh - 72px); /* se sua topbar tiver outra altura, ajuste */
+  padding: 64px 0;
+}
+
+/* Container alinhado ao seu sistema (usa as vars do global) */
+.pageHeader,
+.eduGrid{
+  width: min(1100px, calc(100% - (var(--gutter) * 2)));
+  margin: 0 auto;
+}
+
+.pageHeader{
+  text-align: center;
+  margin-bottom: 28px;
+}
+
+.pageHeader h1{
+  margin: 0 0 10px;
+  font-size: 2.2rem;
+  letter-spacing: -0.4px;
+  color: var(--text);
+}
+
+.pageHeader p{
+  margin: 0 auto;
+  max-width: 720px;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+/* Grid */
+.eduGrid{
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 22px;
+}
+
+/* Card */
+.workCard{
+  padding: 22px;
+  border-radius: 18px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Header do card */
+.workHeader{
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.workTitleLine{
+  margin: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.05rem;
+  font-weight: 900;
+  color: var(--text);
+  line-height: 1.2;
+}
+
+.workTitleIcon{
+  display: inline-grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: color-mix(in srgb, var(--surface) 75%, transparent);
+  color: var(--focus);
+}
+
+.workLocation{
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.workLocation svg{
+  color: var(--focus);
+}
+
+/* Badge */
+.workRole{
+  display: inline-block;
+  width: fit-content;
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 900;
+  color: var(--text);
+  border: 1px solid color-mix(in srgb, var(--focus) 35%, var(--border));
+  background: color-mix(in srgb, var(--focus) 14%, transparent);
+}
+
+/* Texto */
+.workCard p{
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+/* Footer */
+.workFooter{
+  margin-top: 6px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+}
+
+.workPeriod{
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.82rem;
+  font-weight: 800;
+  color: var(--muted);
+}
+
+.workPeriod svg{
+  color: var(--focus);
+}
+
+/* ===========================
+   RESPONSIVO
+=========================== */
+
+/* Tablets / telas médias */
+@media (max-width: 980px){
+  .pageSection{ padding: 52px 0; }
+  .eduGrid{ gap: 16px; }
+  .workCard{ padding: 18px; }
+  .pageHeader h1{ font-size: 2rem; }
+}
+
+/* Mobile */
+@media (max-width: 720px){
+  .pageSection{ padding: 42px 0; }
+
+  .eduGrid{
+    grid-template-columns: 1fr; /* ✅ 1 coluna */
+    gap: 14px;
+  }
+
+  .pageHeader{
+    text-align: left; /* fica mais natural no celular */
+    margin-bottom: 18px;
+  }
+
+  .pageHeader h1{
+    font-size: 1.8rem;
+  }
+
+  .workHeader{
+    flex-direction: column; /* ✅ empilha */
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .workLocation{
+    white-space: normal; /* ✅ permite quebrar linha */
+    line-height: 1.35;
+  }
+
+  .workTitleIcon{
+    width: 36px;
+    height: 36px;
+  }
+
+  .workCard{
+    border-radius: 16px;
+  }
+}
+
+/* Mobile pequeno */
+@media (max-width: 420px){
+  .workCard{ padding: 16px; }
+  .workTitleLine{ font-size: 1rem; }
+}

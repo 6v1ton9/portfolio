@@ -1,142 +1,120 @@
+/* src/pages/Projeto-detalhes.css */
 
-
-
-/* Força a tela de detalhes a ocupar TODO o viewport abaixo da topbar
-   (ignora qualquer .container do AppLayout) */
+/* Página */
 .projectDetailPage{
-  position: fixed;
-  top: 64px;   /* altura da topbar */
-  left: 0;
-  right: 0;
-  bottom: 0;
-
-  overflow: hidden;
   width: 100%;
-  display: flex;
-  justify-content: center;
-
-  padding: 18px 24px;
+  background: var(--bg);
+  padding: 18px 0;
 }
 
-/* Agora o grid fica centralizado e usa o espaço de verdade */
+/* ✅ Isso corrige o “descer pra sempre” no desktop:
+   em vez de travar body, limitamos a altura e criamos scroll interno
+*/
 .projectDetailGrid{
-  width: 100%;
-  max-width: 1600px; /* usa bem 1920 sem ficar exagerado */
-  height: 100%;
+  width: min(1160px, calc(100% - (var(--gutter) * 2)));
+  margin: 0 auto;
 
   display: grid;
-  grid-template-columns: 420px minmax(0, 1fr);
-  gap: 18px;
-  align-items: stretch;
+  grid-template-columns: 0.95fr 1.05fr;
+  gap: 22px;
+
+  /* Desktop: ocupa a tela e não cria “página infinita” */
+  height: calc(100vh - 90px); /* ajuste se sua topbar tiver outra altura */
+  min-height: 560px;
 }
 
-@media (max-width: 900px){
-  /* Em mobile, volta a rolar normalmente */
-  .projectDetailPage{
-    position: relative;
-    top: auto;
-    left: auto;
-    right: auto;
-    bottom: auto;
-
-    overflow: visible;
-    padding: 0;
-    display: block;
-  }
-
-  .projectDetailGrid{
-    height: auto;
-    max-width: none;
-    grid-template-columns: 1fr;
-  }
-}
-
-
-/* Ajuste p/ 1360 */
-@media (max-width: 1400px){
-  .projectDetailGrid{
-    max-width: 1040px;
-    padding: 0 18px;
-    grid-template-columns: 380px minmax(0, 1fr);
-  }
-}
-
-
-/* ===== ESQUERDA ===== */
+/* Coluna esquerda: scroll interno no desktop */
 .projectInfo{
-  height: 100%;
   border: 1px solid var(--border);
   background: var(--surface);
   border-radius: 18px;
   padding: 18px;
-
-  /* não rola a tela; se estourar, rola só aqui (opcional) */
   overflow: auto;
 }
 
+/* Coluna direita: scroll interno no desktop (thumbs podem crescer) */
+.projectMedia{
+  border: 1px solid var(--border);
+  background: var(--surface);
+  border-radius: 18px;
+  padding: 18px;
+  overflow: hidden;
+
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* Back */
 .backLink{
   display: inline-flex;
-  gap: 8px;
   align-items: center;
-  color: var(--muted);
-  font-weight: 800;
+  gap: 8px;
+  padding: 10px 12px;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  background: color-mix(in srgb, var(--surface) 75%, transparent);
+  color: var(--text);
   text-decoration: none;
-  margin-bottom: 12px;
+  font-weight: 800;
 }
 
 .backLink:hover{
-  color: var(--text);
-  filter: drop-shadow(0 0 10px color-mix(in srgb, var(--focus) 55%, transparent));
+  background: color-mix(in srgb, var(--focus) 12%, transparent);
 }
 
+/* Título/desc */
 .projectTitle{
-  margin: 0 0 10px;
-  font-size: 1.65rem;
-  line-height: 1.15;
+  margin: 14px 0 10px;
+  font-size: 1.8rem;
+  letter-spacing: -0.3px;
 }
 
 .projectDesc{
   margin: 0 0 14px;
   color: var(--muted);
+  line-height: 1.6;
 }
 
+/* Links */
 .projectLinks{
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
-  margin-bottom: 14px;
+  margin: 8px 0 10px;
 }
 
 .projLink{
   display: inline-flex;
   align-items: center;
   gap: 8px;
-
-  height: 42px;
-  padding: 0 12px;
+  padding: 10px 12px;
+  border-radius: 14px;
   border: 1px solid var(--border);
-  background: color-mix(in srgb, var(--surface) 88%, transparent);
-  border-radius: 12px;
-
+  text-decoration: none;
   color: var(--text);
   font-weight: 900;
-  text-decoration: none;
-
-  transition: transform 160ms ease, background 160ms ease, border-color 160ms ease, box-shadow 160ms ease;
+  background: color-mix(in srgb, var(--surface) 75%, transparent);
 }
 
 .projLink:hover{
-  background: color-mix(in srgb, var(--focus) 22%, transparent);
-  border-color: color-mix(in srgb, var(--focus) 55%, var(--border));
-  box-shadow:
-    0 0 0 1px color-mix(in srgb, var(--focus) 30%, transparent),
-    0 14px 40px color-mix(in srgb, var(--focus) 18%, transparent);
-  transform: translateY(-1px);
+  border-color: color-mix(in srgb, var(--focus) 40%, var(--border));
+  background: color-mix(in srgb, var(--focus) 10%, transparent);
 }
 
-.block{ margin-top: 14px; }
-.blockTitle{ margin: 0 0 10px; font-size: 1rem; }
+/* Blocos */
+.block{
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+}
 
+.blockTitle{
+  margin: 0 0 10px;
+  font-size: 1rem;
+}
+
+/* Chips */
 .techChips{
   display: flex;
   flex-wrap: wrap;
@@ -146,125 +124,106 @@
 .chip{
   padding: 6px 10px;
   border-radius: 999px;
-  font-size: .75rem;
-  font-weight: 800;
-  background: color-mix(in srgb, var(--focus) 16%, transparent);
-  border: 1px solid color-mix(in srgb, var(--focus) 30%, var(--border));
+  font-size: 0.78rem;
+  font-weight: 900;
+  border: 1px solid var(--border);
+  background: color-mix(in srgb, var(--focus) 12%, transparent);
 }
 
+/* Highlights */
 .highlights{
   margin: 0;
   padding-left: 18px;
   color: var(--muted);
-}
-.highlights li{ margin-bottom: 8px; }
-
-/* ===== DIREITA ===== */
-.projectMedia{
-  height: 100%;
-  border: 1px solid var(--border);
-  background: var(--surface);
-  border-radius: 18px;
-  padding: 14px;
-
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  overflow: hidden; /* sem scroll aqui também */
+  display: grid;
+  gap: 6px;
 }
 
-/* Carrossel ocupa o espaço principal */
+/* ===== Carousel ===== */
 .carouselMain{
   position: relative;
-  flex: 1;                 /* ocupa o máximo possível */
-  min-height: 280px;
-  border-radius: 14px;
-  overflow: hidden;
+  border-radius: 16px;
   border: 1px solid var(--border);
-  background: color-mix(in srgb, var(--surface) 80%, transparent);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  background: color-mix(in srgb, var(--bg) 70%, transparent);
+  overflow: hidden;
+
+  /* Desktop: ocupa bem o espaço */
+  height: clamp(320px, 52vh, 520px);
+  display: grid;
+  place-items: center;
 }
 
 .carouselImg{
   width: 100%;
   height: 100%;
-  object-fit: contain;
-  display: block;
+  object-fit: contain; /* ✅ evita cortar prints */
+  background: #0000;
 }
 
-.carouselEmpty{
-  color: var(--muted);
-  font-weight: 800;
-  padding: 20px;
-  text-align: center;
-}
-
+/* Botões */
 .carouselBtn{
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
   width: 44px;
   height: 44px;
-  border-radius: 12px;
-  border: 1px solid var(--border);
-  background: color-mix(in srgb, var(--surface) 80%, transparent);
-  color: var(--text);
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--border) 80%, transparent);
+  background: color-mix(in srgb, var(--surface) 75%, transparent);
+  display: grid;
+  place-items: center;
   cursor: pointer;
-
-  transition: transform 160ms ease, background 160ms ease, border-color 160ms ease, box-shadow 160ms ease;
 }
-
-.carouselBtn.left{ left: 10px; }
-.carouselBtn.right{ right: 10px; }
 
 .carouselBtn:hover{
-  background: color-mix(in srgb, var(--focus) 22%, transparent);
-  border-color: color-mix(in srgb, var(--focus) 55%, var(--border));
-  box-shadow:
-    0 0 0 1px color-mix(in srgb, var(--focus) 30%, transparent),
-    0 14px 40px color-mix(in srgb, var(--focus) 18%, transparent);
-  transform: translateY(-50%) translateY(-1px);
+  border-color: color-mix(in srgb, var(--focus) 45%, var(--border));
+  box-shadow: 0 10px 24px rgba(0,0,0,.12);
 }
 
-/* legenda sobre a imagem (dentro do carrossel) */
+.carouselBtn.left{ left: 12px; }
+.carouselBtn.right{ right: 12px; }
+
+/* Legenda */
 .carouselCaption{
   position: absolute;
   left: 12px;
   right: 12px;
   bottom: 12px;
   padding: 10px 12px;
-  border-radius: 12px;
-
-  background: color-mix(in srgb, var(--surface) 88%, transparent);
+  border-radius: 14px;
   border: 1px solid var(--border);
-
+  background: color-mix(in srgb, var(--surface) 78%, transparent);
   color: var(--text);
-  font-weight: 900;
-  font-size: .85rem;
-  backdrop-filter: blur(10px);
+  font-weight: 800;
+  font-size: 0.9rem;
 }
 
-/* miniaturas embaixo, sem “galeria extra” */
+/* Thumbs */
 .thumbs{
   display: flex;
   gap: 10px;
-  overflow-x: auto;
-  padding: 2px 2px 6px;
+  overflow-x: auto;            /* ✅ mobile friendly */
+  padding-bottom: 6px;
+}
+
+.thumbs::-webkit-scrollbar{
+  height: 8px;
+}
+.thumbs::-webkit-scrollbar-thumb{
+  background: color-mix(in srgb, var(--border) 75%, transparent);
+  border-radius: 999px;
 }
 
 .thumb{
   border: 1px solid var(--border);
   background: transparent;
-  border-radius: 14px;
   padding: 0;
-  cursor: pointer;
+  border-radius: 14px;
   overflow: hidden;
+  cursor: pointer;
   flex: 0 0 auto;
   width: 120px;
-  height: 74px;
-  transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease;
+  height: 76px;
 }
 
 .thumb img{
@@ -274,42 +233,57 @@
   display: block;
 }
 
-.thumb:hover{
-  transform: translateY(-1px);
-  border-color: color-mix(in srgb, var(--focus) 55%, var(--border));
-  box-shadow: 0 14px 34px color-mix(in srgb, var(--focus) 14%, transparent);
-}
-
 .thumb.is-active{
-  border-color: var(--focus);
-  box-shadow: 0 0 0 1px color-mix(in srgb, var(--focus) 40%, transparent);
+  border-color: color-mix(in srgb, var(--focus) 55%, var(--border));
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--focus) 18%, transparent);
 }
 
-/* ===== Responsivo ===== */
-@media (max-width: 1100px){
-  .projectDetailGrid{
-    grid-template-columns: 360px 1fr;
-  }
+/* Empty */
+.carouselEmpty{
+  padding: 18px;
+  color: var(--muted);
+  text-align: center;
 }
 
-@media (max-width: 900px){
-  /* Em telas menores vira 1 coluna */
-  .projectDetailPage{
-    height: auto;
-    overflow: visible;
-  }
+/* ===========================
+   MOBILE: scroll liberado + layout empilhado
+=========================== */
+
+@media (max-width: 860px){
+  /* ✅ No mobile, não “trava” a página */
   .projectDetailGrid{
-    height: auto;
     grid-template-columns: 1fr;
+    height: auto;         /* ✅ libera altura */
+    min-height: auto;
   }
-  /* libera scroll no mobile */
-  body{
-    overflow: auto;
-  }
-  .projectInfo{
-    overflow: visible;
-  }
+
+  .projectInfo,
   .projectMedia{
-    height: 520px; /* mantém carrossel utilizável */
+    overflow: visible;    /* ✅ libera scroll do body no mobile */
+    padding: 16px;
+    border-radius: 16px;
   }
+
+  .carouselMain{
+    height: 280px;        /* ✅ melhor no celular */
+  }
+
+  .carouselBtn{
+    width: 48px;
+    height: 48px;
+  }
+
+  .carouselCaption{
+    font-size: 0.85rem;
+  }
+
+  .thumb{
+    width: 110px;
+    height: 70px;
+  }
+}
+
+@media (max-width: 420px){
+  .carouselMain{ height: 240px; }
+  .thumb{ width: 100px; height: 64px; }
 }
