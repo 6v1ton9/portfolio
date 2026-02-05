@@ -1,0 +1,169 @@
+/* src/components/topbar.css */
+
+/* Alinhamento por coluna do grid */
+.topbar__left { justify-self: start; }
+.topbar__center { justify-self: center; }
+.topbar__right { justify-self: end; }
+
+/* Topbar fixa */
+.topbar{
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+
+  backdrop-filter: blur(10px);
+  background: color-mix(in srgb, var(--surface) 88%, transparent);
+  border-bottom: 1px solid var(--border);
+}
+
+/* Container + grid */
+.topbar__inner{
+  height: 64px;
+  width: min(var(--container), calc(100% - (var(--gutter) * 2)));
+  margin: 0 auto;
+
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 12px;
+}
+
+/* (Opcional, mas útil se você não compensou no layout)
+   Melhor prática é colocar paddingTop no AppLayout,
+   mas se quiser manter aqui: */
+body{
+  padding-top: 64px;
+}
+
+/* Brand */
+.brand{
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  user-select: none;
+}
+
+.brand__dot{
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  background: var(--focus);
+  box-shadow: 0 0 18px color-mix(in srgb, var(--focus) 55%, transparent);
+}
+
+.brand__text{
+  font-weight: 800;
+  letter-spacing: -0.2px;
+}
+
+/* Centro */
+.topbar__center{
+  display: inline-flex;
+  align-items: center;
+  gap: 18px;
+}
+
+/* Direita */
+.topbar__right{
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* ===== PADRÃO PARA TODOS OS BOTÕES/LINKS DA TOPBAR ===== */
+.topbarItem{
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  height: 64px;             /* do topo ao final da topbar */
+  padding: 0 14px;          /* largura lateral */
+
+  border-radius: 0;         /* quadrado */
+  background: transparent;
+  border: none;
+  text-decoration: none;
+
+  color: var(--muted);
+  font-weight: 800;
+  cursor: pointer;
+  line-height: 1;
+
+  transition: color 160ms ease;
+}
+
+.topbarItem > *{
+  position: relative;
+  z-index: 1;
+}
+
+/* Fundo do hover/ativo (mais claro) */
+.topbarItem::before{
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: color-mix(in srgb, var(--focus) 22%, transparent);
+  opacity: 0;
+  transition: opacity 160ms ease;
+  z-index: 0;
+}
+
+/* Barra superior (5px) com focus “puro” */
+.topbarItem::after{
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 5px;
+  background: var(--focus);
+  opacity: 0;
+  transition: opacity 160ms ease;
+  z-index: 0;
+}
+
+/* Hover/Active */
+.topbarItem:hover,
+.topbarItem.is-active{
+  color: var(--text);
+}
+
+.topbarItem:hover::before,
+.topbarItem.is-active::before{
+  opacity: 1;
+}
+
+.topbarItem:hover::after,
+.topbarItem.is-active::after{
+  opacity: 1;
+}
+
+/* Glow no texto/ícone */
+.topbarItem:hover .glowText,
+.topbarItem:hover .glowIcon,
+.topbarItem.is-active .glowText,
+.topbarItem.is-active .glowIcon{
+  filter: drop-shadow(0 0 12px color-mix(in srgb, var(--focus) 85%, transparent));
+}
+
+/* Ajustes específicos (leves) */
+.themeBtn{
+  padding: 0 12px; /* um pouco menor */
+}
+
+.contactBtn{
+  font-weight: 900;
+}
+
+/* Responsivo */
+@media (max-width: 640px){
+  .topbar__inner{
+    grid-template-columns: 1fr 1fr;
+  }
+  .topbar__center{
+    display: none;
+  }
+}

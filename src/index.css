@@ -1,0 +1,370 @@
+/* =========================================
+   GLOBAL.CSS — COMPLETO E OTIMIZADO
+   - Reset consistente
+   - Tokens (cores/spacing)
+   - Base tipográfica
+   - Layout (container/page)
+   - Componentes comuns
+   - Responsivo
+========================================= */
+
+/* ============ RESET / BASE ============ */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  width: 100%;
+  background: var(--bg);
+  color: var(--text);
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial,
+    "Apple Color Emoji","Segoe UI Emoji";
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: block; /* IMPORTANTE: não centralizar no body */
+}
+
+img, svg, video, canvas {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  color: var(--focus);
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+
+button, input, textarea, select {
+  font: inherit;
+  color: inherit;
+}
+
+:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--focus) 70%, transparent);
+  outline-offset: 2px;
+}
+
+/* ============ TOKENS ============ */
+:root {
+  /* Layout */
+  --container: 1160px;
+  --gutter: 24px;
+  --sectionY: 36px;
+
+  /* Cores */
+  --bg: #f2f4f7;
+  --surface: #ffffff;
+  --text: #111827;
+  --muted: #4b5563;
+  --border: #e5e7eb;
+  --focus: #60a5fa;
+
+  /* Raio / sombras */
+  --radius-sm: 12px;
+  --radius-md: 16px;
+  --radius-lg: 18px;
+
+  --shadow-sm: 0 6px 18px rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 10px 32px rgba(0, 0, 0, 0.10);
+
+  /* Texto */
+  line-height: 1.5;
+  font-weight: 400;
+  font-synthesis: none;
+}
+
+/* Light preference: ajuste de medidas (opcional) */
+@media (prefers-color-scheme: light) {
+  :root {
+    --container: 1040px;
+    --gutter: 18px;
+    --sectionY: 28px;
+  }
+}
+
+/* ============ ESTRUTURA / LAYOUT ============ */
+.container {
+  width: min(var(--container), calc(100% - (var(--gutter) * 2)));
+  margin: 0 auto;
+}
+
+.page {
+  padding: var(--sectionY) 0;
+}
+
+/* Se você usa um wrapper geral do app */
+.app {
+  min-height: 100vh;
+  background: var(--bg);
+}
+
+/* ============ TIPOGRAFIA ============ */
+h1, h2, h3, h4, h5, h6 {
+  margin: 0;
+  color: var(--text);
+}
+
+p {
+  margin: 0;
+  color: var(--text);
+}
+
+.muted {
+  color: var(--muted);
+}
+
+/* ============ BOTÕES (base) ============ */
+.homePrimaryBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 18px;
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--focus) 28%, transparent);
+  border: 1px solid color-mix(in srgb, var(--focus) 55%, var(--border));
+  color: var(--text);
+  font-weight: 800;
+  cursor: pointer;
+  transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease;
+}
+
+.homePrimaryBtn:hover {
+  transform: translateY(-1px);
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--focus) 35%, transparent),
+    0 14px 40px color-mix(in srgb, var(--focus) 22%, transparent);
+}
+
+.homeSecondaryBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 18px;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text);
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease;
+}
+
+.homeSecondaryBtn:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
+}
+
+/* Botão genérico (caso você use <button> puro) */
+button {
+  border-radius: 12px;
+  border: 1px solid transparent;
+  background: var(--surface);
+}
+
+/* ============ SECTIONS / HEADERS ============ */
+.pageSection {
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
+}
+
+.pageHeader h1 {
+  margin: 0 0 10px;
+  font-size: 2.2rem;
+  letter-spacing: -0.4px;
+}
+
+.pageHeader p {
+  max-width: 720px;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+/* ============ WORK CARDS (comum) ============ */
+.workList {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.workCard {
+  padding: 22px;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  box-shadow: var(--shadow-sm);
+}
+
+.workCard h3 {
+  margin: 0 0 6px;
+}
+
+.workHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.workRole {
+  display: inline-block;
+  margin-bottom: 10px;
+  font-size: 0.9rem;
+  font-weight: 800;
+  color: var(--focus);
+}
+
+.workLocation {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.workLocation svg {
+  color: var(--focus);
+}
+
+.workFooter {
+  margin-top: 18px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: flex-start;
+}
+
+.workPeriod {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8rem;
+  font-weight: 800;
+  color: var(--muted);
+}
+
+.workPeriod svg {
+  color: var(--focus);
+}
+
+/* ============ PROJECTS (comum) ============ */
+.projectGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
+}
+
+.projectCard {
+  padding: 22px;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  box-shadow: var(--shadow-sm);
+}
+
+.projectCardLink {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+.projectCardTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.projectOpen {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: .85rem;
+  font-weight: 900;
+  color: var(--muted);
+}
+
+.projectCardLink:hover .projectOpen {
+  color: var(--text);
+  filter: drop-shadow(0 0 10px color-mix(in srgb, var(--focus) 60%, transparent));
+}
+
+.projectTech {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.projectTech span {
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 900;
+  background: color-mix(in srgb, var(--focus) 16%, transparent);
+  color: var(--text);
+  border: 1px solid color-mix(in srgb, var(--focus) 20%, var(--border));
+}
+
+/* ============ PRINTS GRID (comum) ============ */
+.printsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.printCard {
+  margin: 0;
+  padding: 14px;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  box-shadow: var(--shadow-sm);
+}
+
+.printImg {
+  width: 100%;
+  height: 170px;
+  object-fit: cover;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  background: color-mix(in srgb, var(--surface) 70%, transparent);
+}
+
+.printCaption {
+  margin-top: 10px;
+  font-size: .85rem;
+  font-weight: 800;
+  color: var(--muted);
+}
+
+/* ============ RESPONSIVO ============ */
+@media (max-width: 1200px) {
+  .projectGrid { grid-template-columns: repeat(2, 1fr); }
+  .printsGrid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 720px) {
+  .projectGrid { grid-template-columns: 1fr; }
+  .printsGrid { grid-template-columns: 1fr; }
+
+  .pageHeader h1 { font-size: 2rem; }
+
+  .printImg { height: 220px; }
+}

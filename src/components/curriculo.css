@@ -1,0 +1,152 @@
+.cvSection{
+  width: 100%;
+  min-height: 100vh;
+  background: var(--bg);
+  padding: 64px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
+}
+
+.cvHeader{
+  width: min(900px, calc(100% - (var(--gutter) * 2)));
+  margin: 0 auto;
+  text-align: center;
+}
+
+.cvTitleRow{
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.cvIcon{
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  background: color-mix(in srgb, var(--surface) 70%, transparent);
+}
+
+.cvHeader h1{
+  margin: 0;
+  font-size: 2.2rem;
+  letter-spacing: -0.4px;
+  color: var(--text);
+}
+
+.cvHeader p{
+  margin: 10px auto 0;
+  max-width: 720px;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.cvActions{
+  margin-top: 18px;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+/* botões específicos (pra não depender de outros) */
+.cvPrimaryBtn,
+.cvSecondaryBtn{
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  border-radius: 14px;
+  font-weight: 800;
+  border: 1px solid var(--border);
+  transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease;
+}
+
+.cvPrimaryBtn{
+  background: color-mix(in srgb, var(--focus) 26%, transparent);
+  border-color: color-mix(in srgb, var(--focus) 55%, var(--border));
+  color: var(--text);
+}
+
+.cvPrimaryBtn:hover{
+  transform: translateY(-1px);
+  box-shadow: 0 14px 40px color-mix(in srgb, var(--focus) 22%, transparent);
+}
+
+.cvSecondaryBtn{
+  background: color-mix(in srgb, var(--surface) 75%, transparent);
+  color: var(--text);
+}
+
+.cvSecondaryBtn:hover{
+  transform: translateY(-1px);
+  box-shadow: 0 10px 24px rgba(0,0,0,.08);
+}
+
+/* Viewer */
+.cvViewerCard{
+  width: min(1100px, calc(100% - (var(--gutter) * 2)));
+  margin: 0 auto;
+  border-radius: 18px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  box-shadow: 0 8px 28px rgba(0,0,0,.06);
+  overflow: hidden;
+}
+
+.cvViewerTop{
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.cvViewerLabel{
+  font-weight: 900;
+  color: var(--text);
+}
+
+.cvViewerHint{
+  font-size: .9rem;
+  color: var(--muted);
+}
+
+.cvViewer{
+  height: clamp(520px, 70vh, 900px);
+  background: color-mix(in srgb, var(--bg) 70%, transparent);
+}
+
+.cvObject{
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+/* fallback */
+.cvFallback{
+  height: 100%;
+  display: grid;
+  place-items: center;
+  padding: 28px;
+  text-align: center;
+  color: var(--muted);
+}
+
+.cvFallbackActions{
+  margin-top: 14px;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+@media (max-width: 720px){
+  .cvHeader h1{ font-size: 2rem; }
+  .cvViewerTop{ flex-direction: column; align-items: flex-start; }
+}

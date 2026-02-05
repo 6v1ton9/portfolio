@@ -1,0 +1,242 @@
+/* src/pages/contato.css */
+
+.contactGrid{
+  display: grid;
+  grid-template-columns: 1.4fr 0.9fr;
+  gap: 22px;
+  align-items: start;
+}
+
+/* Card principal */
+.contactCard{
+  border: 1px solid var(--border);
+  background: var(--surface);
+  border-radius: 18px;
+  padding: 18px;
+}
+
+.contactCard__top{
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 14px;
+}
+
+.contactAvatar{
+  width: 52px;
+  height: 52px;
+  border-radius: 16px;
+  display: grid;
+  place-items: center;
+  font-weight: 900;
+  color: var(--text);
+  background: color-mix(in srgb, var(--focus) 18%, transparent);
+  border: 1px solid color-mix(in srgb, var(--focus) 35%, var(--border));
+  box-shadow: 0 14px 40px color-mix(in srgb, var(--focus) 10%, transparent);
+}
+
+.contactName{
+  margin: 0;
+  font-size: 1.35rem;
+  line-height: 1.1;
+}
+
+.contactRole{
+  margin: 6px 0 0;
+  color: var(--muted);
+  font-weight: 700;
+}
+
+/* Lista */
+.contactList{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Item */
+.cItem{
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 10px;
+  align-items: center;
+
+  border: 1px solid var(--border);
+  background: color-mix(in srgb, var(--surface) 88%, transparent);
+  border-radius: 14px;
+  padding: 12px 12px;
+}
+
+.cItem__link{
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  color: inherit;
+  min-width: 0;
+}
+
+.cItem__icon{
+  width: 36px;
+  height: 36px;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+
+  background: color-mix(in srgb, var(--focus) 14%, transparent);
+  border: 1px solid color-mix(in srgb, var(--focus) 28%, var(--border));
+  color: var(--text);
+}
+
+.cItem__txt{
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.cItem__label{
+  font-size: 0.8rem;
+  font-weight: 800;
+  color: var(--muted);
+}
+
+.cItem__value{
+  font-weight: 900;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cItem__copy{
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text);
+  cursor: pointer;
+
+  transition: transform 160ms ease, background 160ms ease, border-color 160ms ease, box-shadow 160ms ease;
+}
+
+.cItem__copy:hover{
+  background: color-mix(in srgb, var(--focus) 18%, transparent);
+  border-color: color-mix(in srgb, var(--focus) 45%, var(--border));
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--focus) 25%, transparent),
+    0 14px 40px color-mix(in srgb, var(--focus) 16%, transparent);
+  transform: translateY(-1px);
+}
+
+/* Ações */
+.contactActions{
+  display: flex;
+  gap: 12px;
+  margin-top: 14px;
+  flex-wrap: wrap;
+}
+
+.contactBtnBig{
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  height: 46px;
+  padding: 0 16px;
+  border-radius: 14px;
+
+  text-decoration: none;
+  font-weight: 900;
+  color: var(--text);
+
+  border: 1px solid color-mix(in srgb, var(--focus) 45%, var(--border));
+  background: color-mix(in srgb, var(--focus) 18%, transparent);
+
+  transition: transform 160ms ease, background 160ms ease, border-color 160ms ease, box-shadow 160ms ease;
+}
+
+.contactBtnBig:hover{
+  background: color-mix(in srgb, var(--focus) 24%, transparent);
+  border-color: color-mix(in srgb, var(--focus) 60%, var(--border));
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--focus) 30%, transparent),
+    0 14px 40px color-mix(in srgb, var(--focus) 18%, transparent);
+  transform: translateY(-1px);
+}
+
+.contactBtnGhost{
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  height: 46px;
+  padding: 0 16px;
+  border-radius: 14px;
+
+  text-decoration: none;
+  font-weight: 900;
+  color: var(--text);
+
+  border: 1px solid var(--border);
+  background: color-mix(in srgb, var(--surface) 88%, transparent);
+
+  transition: transform 160ms ease, background 160ms ease, border-color 160ms ease, box-shadow 160ms ease;
+}
+
+.contactBtnGhost:hover{
+  background: color-mix(in srgb, var(--focus) 18%, transparent);
+  border-color: color-mix(in srgb, var(--focus) 45%, var(--border));
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--focus) 25%, transparent),
+    0 14px 40px color-mix(in srgb, var(--focus) 16%, transparent);
+  transform: translateY(-1px);
+}
+
+/* Lateral */
+.contactSide{
+  border: 1px solid var(--border);
+  background: var(--surface);
+  border-radius: 18px;
+  padding: 18px;
+}
+
+.sideTitle{
+  margin: 0 0 8px;
+}
+
+.sideText{
+  margin: 0 0 14px;
+  color: var(--muted);
+  font-weight: 700;
+}
+
+.sideBox{
+  border: 1px solid var(--border);
+  background: color-mix(in srgb, var(--surface) 88%, transparent);
+  border-radius: 14px;
+  padding: 14px;
+}
+
+.sideBoxTitle{
+  margin: 0 0 8px;
+}
+
+.sideList{
+  margin: 0;
+  padding-left: 18px;
+  color: var(--muted);
+  font-weight: 700;
+}
+
+.sideList li{
+  margin-bottom: 8px;
+}
+
+/* Responsivo */
+@media (max-width: 1000px){
+  .contactGrid{
+    grid-template-columns: 1fr;
+  }
+}
