@@ -167,3 +167,153 @@ body{
     display: none;
   }
 }
+
+/* ===========================
+   Mobile: sidebar + overlay
+=========================== */
+
+.mobileMenuBtn{
+  display: none;
+}
+
+/* Overlay */
+.mobileOverlay{
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.35);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 180ms ease;
+  z-index: 60;
+}
+
+.mobileOverlay.is-open{
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Sidebar */
+.mobileSidebar{
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: min(86vw, 320px);
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  box-shadow: 18px 0 50px rgba(0,0,0,.16);
+  transform: translateX(-105%);
+  transition: transform 220ms ease;
+  z-index: 70;
+
+  display: flex;
+  flex-direction: column;
+  outline: none;
+}
+
+.mobileSidebar.is-open{
+  transform: translateX(0);
+}
+
+.mobileSidebar__top{
+  padding: 14px 14px 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  border-bottom: 1px solid var(--border);
+}
+
+.brand--mobile .brand__text{
+  font-weight: 900;
+}
+
+.mobileCloseBtn{
+  border: 1px solid var(--border);
+  background: color-mix(in srgb, var(--surface) 75%, transparent);
+  border-radius: 14px;
+}
+
+.mobileNav{
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.mobileNavItem{
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 12px;
+  border-radius: 14px;
+  border: 1px solid transparent;
+  color: var(--text);
+  text-decoration: none;
+  font-weight: 800;
+}
+
+.mobileNavItem:hover{
+  background: color-mix(in srgb, var(--focus) 10%, transparent);
+  border-color: color-mix(in srgb, var(--focus) 25%, var(--border));
+}
+
+.mobileNavItem.is-active{
+  background: color-mix(in srgb, var(--focus) 16%, transparent);
+  border-color: color-mix(in srgb, var(--focus) 40%, var(--border));
+}
+
+.mobileNavItem__icon{
+  display: grid;
+  place-items: center;
+  color: var(--focus);
+}
+
+.mobileSidebar__bottom{
+  margin-top: auto;
+  padding: 12px;
+  border-top: 1px solid var(--border);
+}
+
+.mobileThemeBtn{
+  width: 100%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  background: color-mix(in srgb, var(--surface) 75%, transparent);
+  cursor: pointer;
+  font-weight: 900;
+}
+
+/* ===========================
+   Breakpoint
+=========================== */
+
+@media (max-width: 860px){
+  /* esconde menu central no mobile */
+  .topbar__center{
+    display: none;
+  }
+
+  /* opcional: esconder texto do botão Contato pra caber */
+  .contactBtn__text{
+    display: none;
+  }
+
+  /* mostra o hamburger */
+  .mobileMenuBtn{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* dá um espacinho bom na esquerda */
+  .topbar__left{
+    gap: 10px;
+  }
+}
+
