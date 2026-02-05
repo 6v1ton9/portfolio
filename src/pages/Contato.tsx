@@ -1,7 +1,7 @@
 // src/pages/Contato.tsx
 import { useMemo, useState } from "react";
 import { Copy, Check, Mail, Phone, MapPin, Github, Linkedin, Send } from "lucide-react";
-import "./contato.css";
+import "./Contato.css";
 
 type ContactItemProps = {
   icon: React.ReactNode;
