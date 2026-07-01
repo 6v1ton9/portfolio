@@ -1,4 +1,4 @@
-// src/pages/ProjetosDetalhados.tsx (ou ProjetoDetalhes.tsx)
+// src/pages/ProjetosDetalhados.tsx
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import {
@@ -8,9 +8,9 @@ import {
   ExternalLink,
   Github,
 } from "lucide-react";
-import { getProjectBySlug } from "../data/projects";
 import "./Projeto-detalhes.css";
 import { useTheme } from "../theme/ThemeContext";
+import { useTranslation, getTranslatedProject } from "../i18n/LanguageContext";
 
 type ThemeMode = "light" | "dark";
 
@@ -18,7 +18,6 @@ function shotSrc(base: string, theme: ThemeMode) {
   return `${base}.${theme}.PNG`;
 }
 
-// Detecta "mobile" por breakpoint (mesmo do CSS)
 function useIsMobile(breakpoint = 860) {
   const [isMobile, setIsMobile] = useState(() =>
     typeof window === "undefined" ? false : window.innerWidth <= breakpoint
@@ -35,9 +34,10 @@ function useIsMobile(breakpoint = 860) {
 
 export default function ProjetoDetalhes() {
   const { slug } = useParams();
+  const { t, locale } = useTranslation();
   const project = useMemo(
-    () => (slug ? getProjectBySlug(slug) : undefined),
-    [slug]
+    () => (slug ? getTranslatedProject(slug, locale) : undefined),
+    [slug, locale]
   );
 
   const shots = project?.screenshots ?? [];
@@ -49,7 +49,6 @@ export default function ProjetoDetalhes() {
 
   const isMobile = useIsMobile(860);
 
-  // ✅ Só bloqueia scroll no DESKTOP (no mobile deixa rolar)
   useEffect(() => {
     if (isMobile) return;
     const prev = document.body.style.overflow;
@@ -63,7 +62,6 @@ export default function ProjetoDetalhes() {
     if (shots.length > 0) setActive((v) => Math.min(v, shots.length - 1));
   }, [shots.length]);
 
-  // (opcional) pré-carrega o outro tema pra não “piscar”
   useEffect(() => {
     if (!hasShots) return;
     const other: ThemeMode = resolvedTheme === "dark" ? "light" : "dark";
@@ -77,7 +75,6 @@ export default function ProjetoDetalhes() {
     setActive((v) => (v - 1 + shots.length) % shots.length);
   const nextShot = () => setActive((v) => (v + 1) % shots.length);
 
-  // ✅ Swipe simples no mobile (sem lib)
   const touchStartX = useRef<number | null>(null);
 
   const onTouchStart = (e: React.TouchEvent) => {
@@ -90,7 +87,7 @@ export default function ProjetoDetalhes() {
     if (start == null || end == null) return;
 
     const dx = end - start;
-    const threshold = 40; // px
+    const threshold = 40;
     if (Math.abs(dx) < threshold) return;
 
     if (dx > 0) prevShot();
@@ -103,12 +100,12 @@ export default function ProjetoDetalhes() {
     return (
       <section className="pageSection">
         <header className="pageHeader">
-          <h1>Projeto não encontrado</h1>
-          <p>Esse projeto não existe (ou o link está incorreto).</p>
+          <h1>{t.projetos.notFound}</h1>
+          <p>{t.projetos.notFoundDesc}</p>
         </header>
 
         <Link to="/projetos" className="homePrimaryBtn">
-          <ArrowLeft size={18} /> Voltar para Projetos
+          <ArrowLeft size={18} /> {t.projetos.backToProjects}
         </Link>
       </section>
     );
@@ -117,11 +114,10 @@ export default function ProjetoDetalhes() {
   return (
     <section className="projectDetailPage">
       <div className="projectDetailGrid">
-        {/* ESQUERDA: infos */}
         <aside className="projectInfo">
           <Link to="/projetos" className="backLink">
             <ArrowLeft size={18} />
-            Voltar
+            {t.projetos.back}
           </Link>
 
           <h1 className="projectTitle">{project.title}</h1>
@@ -151,18 +147,18 @@ export default function ProjetoDetalhes() {
           )}
 
           <div className="block">
-            <h3 className="blockTitle">Tecnologias</h3>
+            <h3 className="blockTitle">{t.projetos.technologies}</h3>
             <div className="techChips">
-              {project.tech.map((t) => (
-                <span key={t} className="chip">
-                  {t}
+              {project.tech.map((tech) => (
+                <span key={tech} className="chip">
+                  {tech}
                 </span>
               ))}
             </div>
           </div>
 
           <div className="block">
-            <h3 className="blockTitle">Destaques</h3>
+            <h3 className="blockTitle">{t.projetos.highlights}</h3>
             <ul className="highlights">
               {project.highlights.map((h) => (
                 <li key={h}>{h}</li>
@@ -171,7 +167,6 @@ export default function ProjetoDetalhes() {
           </div>
         </aside>
 
-        {/* DIREITA: carrossel */}
         <main className="projectMedia">
           <div
             className="carouselMain"
@@ -183,7 +178,7 @@ export default function ProjetoDetalhes() {
                 <button
                   className="carouselBtn left"
                   onClick={prevShot}
-                  aria-label="Imagem anterior"
+                  aria-label={t.projetos.prevImage}
                   type="button"
                 >
                   <ChevronLeft size={22} />
@@ -199,7 +194,7 @@ export default function ProjetoDetalhes() {
                 <button
                   className="carouselBtn right"
                   onClick={nextShot}
-                  aria-label="Próxima imagem"
+                  aria-label={t.projetos.nextImage}
                   type="button"
                 >
                   <ChevronRight size={22} />
@@ -209,20 +204,19 @@ export default function ProjetoDetalhes() {
               </>
             ) : (
               <div className="carouselEmpty">
-                Sem prints configurados ainda. (Coloque em <b>public/prints</b> e
-                aponte no <b>projects.ts</b>.)
+                {t.projetos.noScreenshots}
               </div>
             )}
           </div>
 
           {hasShots && (
-            <div className="thumbs" aria-label="Miniaturas">
+            <div className="thumbs">
               {shots.map((s, i) => (
                 <button
                   key={s.base}
                   className={`thumb ${i === active ? "is-active" : ""}`}
                   onClick={() => setActive(i)}
-                  aria-label={`Abrir imagem ${i + 1}`}
+                  aria-label={`${t.projetos.details} ${i + 1}`}
                   type="button"
                 >
                   <img

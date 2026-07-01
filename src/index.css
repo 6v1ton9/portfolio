@@ -59,9 +59,9 @@ button, input, textarea, select {
 /* ============ TOKENS ============ */
 :root {
   /* Layout */
-  --container: 1160px;
-  --gutter: 24px;
-  --sectionY: 36px;
+  --container: 1120px;
+  --gutter: 28px;
+  --sectionY: 48px;
 
   /* Cores */
   --bg: #f2f4f7;
@@ -74,24 +74,16 @@ button, input, textarea, select {
   /* Raio / sombras */
   --radius-sm: 12px;
   --radius-md: 16px;
-  --radius-lg: 18px;
+  --radius-lg: 20px;
 
   --shadow-sm: 0 6px 18px rgba(0, 0, 0, 0.06);
   --shadow-md: 0 10px 32px rgba(0, 0, 0, 0.10);
+  --shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.08);
 
   /* Texto */
-  line-height: 1.5;
+  line-height: 1.6;
   font-weight: 400;
   font-synthesis: none;
-}
-
-/* Light preference: ajuste de medidas (opcional) */
-@media (prefers-color-scheme: light) {
-  :root {
-    --container: 1040px;
-    --gutter: 18px;
-    --sectionY: 28px;
-  }
 }
 
 /* ============ ESTRUTURA / LAYOUT ============ */
@@ -177,38 +169,51 @@ button {
 .pageSection {
   display: flex;
   flex-direction: column;
-  gap: 36px;
+  gap: 40px;
+}
+
+.pageHeader {
+  text-align: center;
 }
 
 .pageHeader h1 {
-  margin: 0 0 10px;
-  font-size: 2.2rem;
-  letter-spacing: -0.4px;
+  margin: 0 0 12px;
+  font-size: 2.4rem;
+  letter-spacing: -0.6px;
+  font-weight: 900;
 }
 
 .pageHeader p {
-  max-width: 720px;
+  max-width: 680px;
+  margin: 0 auto;
   color: var(--muted);
-  line-height: 1.6;
+  line-height: 1.7;
+  font-size: 1.05rem;
 }
 
 /* ============ WORK CARDS (comum) ============ */
 .workList {
   display: flex;
   flex-direction: column;
-  gap: 18px;
+  gap: 20px;
 }
 
 .workCard {
-  padding: 22px;
+  padding: 28px;
   border-radius: var(--radius-lg);
   border: 1px solid var(--border);
   background: var(--surface);
   box-shadow: var(--shadow-sm);
+  transition: box-shadow 200ms ease;
+}
+
+.workCard:hover {
+  box-shadow: var(--shadow-md);
 }
 
 .workCard h3 {
-  margin: 0 0 6px;
+  margin: 0 0 8px;
+  font-size: 1.15rem;
 }
 
 .workHeader {
@@ -220,7 +225,7 @@ button {
 
 .workRole {
   display: inline-block;
-  margin-bottom: 10px;
+  margin-bottom: 12px;
   font-size: 0.9rem;
   font-weight: 800;
   color: var(--focus);
@@ -240,9 +245,14 @@ button {
   color: var(--focus);
 }
 
+.workCard p {
+  line-height: 1.7;
+  color: var(--muted);
+}
+
 .workFooter {
-  margin-top: 18px;
-  padding-top: 14px;
+  margin-top: 20px;
+  padding-top: 16px;
   border-top: 1px solid var(--border);
   display: flex;
   justify-content: flex-start;
@@ -252,7 +262,7 @@ button {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  font-size: 0.8rem;
+  font-size: 0.82rem;
   font-weight: 800;
   color: var(--muted);
 }
@@ -265,24 +275,30 @@ button {
 .projectGrid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 22px;
+  gap: 24px;
 }
 
 .projectCard {
-  padding: 22px;
+  padding: 28px;
   border-radius: var(--radius-lg);
   border: 1px solid var(--border);
   background: var(--surface);
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 16px;
   box-shadow: var(--shadow-sm);
+  transition: box-shadow 200ms ease, transform 200ms ease;
 }
 
 .projectCardLink {
   text-decoration: none;
   color: inherit;
   display: block;
+}
+
+.projectCardLink:hover .projectCard {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
 }
 
 .projectCardTop {
@@ -292,6 +308,10 @@ button {
   gap: 12px;
 }
 
+.projectCard h3 {
+  font-size: 1.15rem;
+}
+
 .projectOpen {
   display: inline-flex;
   align-items: center;
@@ -299,11 +319,17 @@ button {
   font-size: .85rem;
   font-weight: 900;
   color: var(--muted);
+  white-space: nowrap;
 }
 
 .projectCardLink:hover .projectOpen {
   color: var(--text);
   filter: drop-shadow(0 0 10px color-mix(in srgb, var(--focus) 60%, transparent));
+}
+
+.projectCard p {
+  color: var(--muted);
+  line-height: 1.6;
 }
 
 .projectTech {
@@ -313,9 +339,9 @@ button {
 }
 
 .projectTech span {
-  padding: 6px 10px;
+  padding: 6px 12px;
   border-radius: 999px;
-  font-size: 0.75rem;
+  font-size: 0.78rem;
   font-weight: 900;
   background: color-mix(in srgb, var(--focus) 16%, transparent);
   color: var(--text);
@@ -360,11 +386,23 @@ button {
   .printsGrid { grid-template-columns: repeat(2, 1fr); }
 }
 
+@media (max-width: 860px) {
+  .pageHeader h1 { font-size: 2rem; }
+}
+
 @media (max-width: 720px) {
+  :root {
+    --sectionY: 32px;
+    --gutter: 18px;
+  }
+
   .projectGrid { grid-template-columns: 1fr; }
   .printsGrid { grid-template-columns: 1fr; }
 
-  .pageHeader h1 { font-size: 2rem; }
+  .pageHeader h1 { font-size: 1.8rem; }
+
+  .workCard { padding: 20px; }
+  .projectCard { padding: 20px; }
 
   .printImg { height: 220px; }
 }

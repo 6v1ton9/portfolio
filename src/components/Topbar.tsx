@@ -16,13 +16,13 @@ import {
 
 import "./topbar.css";
 import { useTheme } from "../theme/ThemeContext";
+import { useTranslation } from "../i18n/LanguageContext";
+import FlagWithFallback from "./FlagWithFallback";
+import type { Locale } from "../i18n/locales";
 
-type TopbarProps = {
-  brandText?: string;
-};
-
-export default function Topbar({ brandText = "Victor Barbosa" }: TopbarProps) {
+export default function Topbar() {
   const { theme, toggleTheme } = useTheme();
+  const { t, locale, setLocale } = useTranslation();
 
   const [mobileOpen, setMobileOpen] = useState(false);
   const panelRef = useRef<HTMLDivElement | null>(null);
@@ -56,6 +56,11 @@ export default function Topbar({ brandText = "Victor Barbosa" }: TopbarProps) {
     }
   }, [mobileOpen]);
 
+  const langOpts: { code: Locale; label: string }[] = [
+    { code: "pt-BR", label: "PT" },
+    { code: "en", label: "EN" },
+  ];
+
   return (
     <header className="topbar">
       <div className="topbar__inner">
@@ -78,33 +83,49 @@ export default function Topbar({ brandText = "Victor Barbosa" }: TopbarProps) {
 
           <div className="brand">
             <span className="brand__dot" aria-hidden />
-            <span className="brand__text">{brandText}</span>
+            <span className="brand__text">{t.topbar.brand}</span>
           </div>
         </div>
 
         {/* Centro (desktop) */}
         <nav className="topbar__center" aria-label="Navegação principal">
-          <NavItem to="/" label="Home" icon={<Home size={18} />} end />
+          <NavItem to="/" label={t.topbar.home} icon={<Home size={18} />} end />
           <NavItem
             to="/trabalhos"
-            label="Experiência"
+            label={t.topbar.experience}
             icon={<BriefcaseBusiness size={18} />}
           />
-          <NavItem to="/projetos" label="Projetos" icon={<Layers3 size={18} />} />
+          <NavItem to="/projetos" label={t.topbar.projects} icon={<Layers3 size={18} />} />
           <NavItem
             to="/formacoes"
-            label="Formações"
+            label={t.topbar.education}
             icon={<GraduationCap size={18} />}
           />
           <NavItem
             to="/curriculo"
-            label="Currículo"
+            label={t.topbar.resume}
             icon={<FileText size={18} />}
           />
         </nav>
 
         {/* Direita */}
         <div className="topbar__right">
+          {/* Language switcher */}
+          <div className="langSwitcher">
+            {langOpts.map(({ code }) => (
+              <button
+                key={code}
+                className={`topbarItem langBtn ${locale === code ? "is-active" : ""}`}
+                onClick={() => setLocale(code)}
+                type="button"
+                aria-label={code === "pt-BR" ? "Português" : "English"}
+                title={code === "pt-BR" ? "Português" : "English"}
+              >
+                <FlagWithFallback code={code} size={20} />
+              </button>
+            ))}
+          </div>
+
           <button
             className="topbarItem themeBtn"
             onClick={toggleTheme}
@@ -120,7 +141,7 @@ export default function Topbar({ brandText = "Victor Barbosa" }: TopbarProps) {
             <span className="glowIcon contactBtn__icon">
               <Mail size={18} />
             </span>
-            <span className="glowText contactBtn__text">Contato</span>
+            <span className="glowText contactBtn__text">{t.topbar.contact}</span>
           </NavLink>
         </div>
       </div>
@@ -142,7 +163,7 @@ export default function Topbar({ brandText = "Victor Barbosa" }: TopbarProps) {
         <div className="mobileSidebar__top">
           <div className="brand brand--mobile">
             <span className="brand__dot" aria-hidden />
-            <span className="brand__text">{brandText}</span>
+            <span className="brand__text">{t.topbar.brand}</span>
           </div>
 
           <button
@@ -158,15 +179,31 @@ export default function Topbar({ brandText = "Victor Barbosa" }: TopbarProps) {
         </div>
 
         <nav className="mobileNav" aria-label="Navegação mobile">
-          <MobileNavItem to="/" label="Home" icon={<Home size={18} />} onClick={() => setMobileOpen(false)} end />
-          <MobileNavItem to="/trabalhos" label="Experiência" icon={<BriefcaseBusiness size={18} />} onClick={() => setMobileOpen(false)} />
-          <MobileNavItem to="/projetos" label="Projetos" icon={<Layers3 size={18} />} onClick={() => setMobileOpen(false)} />
-          <MobileNavItem to="/formacoes" label="Formações" icon={<GraduationCap size={18} />} onClick={() => setMobileOpen(false)} />
-          <MobileNavItem to="/curriculo" label="Currículo" icon={<FileText size={18} />} onClick={() => setMobileOpen(false)} />
-          <MobileNavItem to="/contato" label="Contato" icon={<Mail size={18} />} onClick={() => setMobileOpen(false)} />
+          <MobileNavItem to="/" label={t.topbar.home} icon={<Home size={18} />} onClick={() => setMobileOpen(false)} end />
+          <MobileNavItem to="/trabalhos" label={t.topbar.experience} icon={<BriefcaseBusiness size={18} />} onClick={() => setMobileOpen(false)} />
+          <MobileNavItem to="/projetos" label={t.topbar.projects} icon={<Layers3 size={18} />} onClick={() => setMobileOpen(false)} />
+          <MobileNavItem to="/formacoes" label={t.topbar.education} icon={<GraduationCap size={18} />} onClick={() => setMobileOpen(false)} />
+          <MobileNavItem to="/curriculo" label={t.topbar.resume} icon={<FileText size={18} />} onClick={() => setMobileOpen(false)} />
+          <MobileNavItem to="/contato" label={t.topbar.contact} icon={<Mail size={18} />} onClick={() => setMobileOpen(false)} />
         </nav>
 
         <div className="mobileSidebar__bottom">
+          {/* Language switcher in mobile sidebar */}
+          <div className="mobileLangRow">
+            {langOpts.map(({ code }) => (
+              <button
+                key={code}
+                className={`mobileLangBtn ${locale === code ? "is-active" : ""}`}
+                onClick={() => setLocale(code)}
+                type="button"
+                aria-label={code === "pt-BR" ? "Português" : "English"}
+              >
+                <FlagWithFallback code={code} size={20} />
+                <span>{code === "pt-BR" ? "PT" : "EN"}</span>
+              </button>
+            ))}
+          </div>
+
           <button
             className="mobileThemeBtn"
             onClick={toggleTheme}
@@ -176,7 +213,7 @@ export default function Topbar({ brandText = "Victor Barbosa" }: TopbarProps) {
             <span className="glowIcon">
               {theme === "light" ? <Moon size={18} /> : <Sun size={18} />}
             </span>
-            <span className="glowText">Tema</span>
+            <span className="glowText">{t.topbar.theme}</span>
           </button>
         </div>
       </aside>

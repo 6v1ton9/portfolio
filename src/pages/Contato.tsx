@@ -2,6 +2,7 @@
 import { useMemo, useState } from "react";
 import { Copy, Check, Mail, Phone, MapPin, Github, Linkedin, Send } from "lucide-react";
 import "./Contato.css";
+import { useTranslation } from "../i18n/LanguageContext";
 
 type ContactItemProps = {
   icon: React.ReactNode;
@@ -13,6 +14,7 @@ type ContactItemProps = {
 
 function ContactItem({ icon, label, value, copy, href }: ContactItemProps) {
   const [copied, setCopied] = useState(false);
+  const { t } = useTranslation();
 
   const handleCopy = async () => {
     if (!copy) return;
@@ -21,7 +23,6 @@ function ContactItem({ icon, label, value, copy, href }: ContactItemProps) {
       setCopied(true);
       window.setTimeout(() => setCopied(false), 1200);
     } catch {
-      // fallback simples
       const ta = document.createElement("textarea");
       ta.value = copy;
       document.body.appendChild(ta);
@@ -54,7 +55,7 @@ function ContactItem({ icon, label, value, copy, href }: ContactItemProps) {
       )}
 
       {copy && (
-        <button className="cItem__copy" onClick={handleCopy} type="button" aria-label={`Copiar ${label}`}>
+        <button className="cItem__copy" onClick={handleCopy} type="button" aria-label={`${copied ? t.contato.copied : t.contato.copy} ${label}`}>
           {copied ? <Check size={18} /> : <Copy size={18} />}
         </button>
       )}
@@ -63,58 +64,59 @@ function ContactItem({ icon, label, value, copy, href }: ContactItemProps) {
 }
 
 export default function Contato() {
-  // ✅ Troque esses placeholders pelos seus dados
+  const { t, locale } = useTranslation();
+
   const email = "vhbarbosa2006@gmail.com";
   const phone = "+55 (11) 98971-3573";
   const location = "Vinhedo, SP";
   const github = "https://github.com/6v1ton9";
   const linkedin = "https://linkedin.com/in/victor-henrique-aureliano-barbosa-9151b41a1";
-  const whatsapp = "5511989713573"; // só números
+  const whatsapp = "5511989713573";
 
   const waLink = useMemo(() => {
-    const msg = encodeURIComponent("Olá! Vi seu portfólio e gostaria de conversar.");
+    const msg = encodeURIComponent(
+      locale === "en"
+        ? "Hi! I saw your portfolio and I'd like to get in touch."
+        : "Olá! Vi seu portfólio e gostaria de conversar."
+    );
     return `https://wa.me/${whatsapp}?text=${msg}`;
-  }, [whatsapp]);
+  }, [whatsapp, locale]);
 
   return (
     <section className="pageSection">
       <header className="pageHeader">
-        <h1>Contato</h1>
-        <p>
-          Quer falar comigo? Me chame por e-mail, WhatsApp ou pelas redes abaixo.
-          Respondo o mais rápido possível.
-        </p>
+        <h1>{t.contato.title}</h1>
+        <p>{t.contato.subtitle}</p>
       </header>
 
       <div className="contactGrid">
-        {/* Card principal */}
         <article className="contactCard">
           <div className="contactCard__top">
             <div className="contactAvatar" aria-hidden>
               VB
             </div>
             <div>
-              <h2 className="contactName">Victor Barbosa</h2>
-              <p className="contactRole">T.I • Suporte • Automação • Desenvolvimento</p>
+              <h2 className="contactName">{t.contato.name}</h2>
+              <p className="contactRole">{t.contato.role}</p>
             </div>
           </div>
 
           <div className="contactList">
             <ContactItem
               icon={<Mail size={18} />}
-              label="E-mail"
+              label={t.contato.email}
               value={email}
               copy={email}
               href={`mailto:${email}`}
             />
             <ContactItem
               icon={<Phone size={18} />}
-              label="Telefone"
+              label={t.contato.phone}
               value={phone}
               copy={phone}
               href={`tel:${phone.replace(/\s|\(|\)|-/g, "")}`}
             />
-            <ContactItem icon={<MapPin size={18} />} label="Local" value={location} />
+            <ContactItem icon={<MapPin size={18} />} label={t.contato.location} value={location} />
             <ContactItem icon={<Github size={18} />} label="GitHub" value={github} href={github} copy={github} />
             <ContactItem
               icon={<Linkedin size={18} />}
@@ -128,33 +130,28 @@ export default function Contato() {
           <div className="contactActions">
             <a className="contactBtnBig" href={waLink} target="_blank" rel="noreferrer">
               <Send size={18} />
-              Falar no WhatsApp
+              {t.contato.whatsapp}
             </a>
 
             <a className="contactBtnGhost" href={`mailto:${email}`}>
               <Mail size={18} />
-              Enviar e-mail
+              {t.contato.sendEmail}
             </a>
           </div>
         </article>
 
-        {/* Card lateral: mensagem rápida (placeholder) */}
         <aside className="contactSide">
-          <h3 className="sideTitle">Mensagem rápida</h3>
+          <h3 className="sideTitle">{t.contato.quickMessage}</h3>
           <p className="sideText">
-Sou um jovem estudante de ciência de dados e estou em busca de uma oportunidade na área de
-desenvolvimento. Tenho facilidade de aprendizado, sou dinâmico e comprometido, sempre
-disposto a me aprimorar e contribuir para o crescimento da empresa. Meu objetivo é aplicar os
-conhecimentos adquiridos na faculdade e desenvolver minhas habilidades na prática, agregando
-valor ao time e evoluindo profissionalmente.
+            {t.contato.quickMessageText}
           </p>
 
           <div className="sideBox">
-            <h4 className="sideBoxTitle">Disponibilidade</h4>
+            <h4 className="sideBoxTitle">{t.contato.availability}</h4>
             <ul className="sideList">
-              <li>CLT | Estágio | PJ</li>
-              <li>Remoto | Presencial | Híbrido</li>
-              <li>Horário comercial | Meio período </li>
+              {t.contato.availabilityItems.map((item, i) => (
+                <li key={i}>{item}</li>
+              ))}
             </ul>
           </div>
         </aside>

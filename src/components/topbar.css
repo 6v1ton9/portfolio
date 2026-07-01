@@ -149,6 +149,71 @@ body{
   filter: drop-shadow(0 0 12px color-mix(in srgb, var(--focus) 85%, transparent));
 }
 
+/* Language switcher */
+.langSwitcher{
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.langBtn{
+  padding: 0 8px !important;
+  width: auto !important;
+  min-width: 32px;
+  justify-content: center;
+}
+
+.langBtn.is-active{
+  color: var(--text);
+}
+
+.langBtn.is-active::before{
+  opacity: 1;
+}
+
+.langBtn.is-active::after{
+  opacity: 1;
+}
+
+.langBtn.is-active .glowIcon,
+.langBtn.is-active svg{
+  filter: drop-shadow(0 0 12px color-mix(in srgb, var(--focus) 85%, transparent));
+}
+
+/* Language switcher on mobile */
+.mobileLangRow{
+  display: flex;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.mobileLangBtn{
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 14px;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  background: transparent;
+  cursor: pointer;
+  font-weight: 900;
+  color: var(--muted);
+  transition: all 160ms ease;
+}
+
+.mobileLangBtn.is-active{
+  background: color-mix(in srgb, var(--focus) 16%, transparent);
+  border-color: color-mix(in srgb, var(--focus) 40%, var(--border));
+  color: var(--text);
+}
+
+.mobileLangBtn:hover{
+  background: color-mix(in srgb, var(--focus) 10%, transparent);
+  border-color: color-mix(in srgb, var(--focus) 25%, var(--border));
+}
+
 /* Ajustes específicos (leves) */
 .themeBtn{
   padding: 0 12px; /* um pouco menor */
@@ -292,6 +357,34 @@ body{
 /* ===========================
    Breakpoint
 =========================== */
+
+/* Flag fallback — texto atrás do SVG via CSS */
+.flagWrap{
+  display: inline-grid;
+  place-items: center;
+  position: relative;
+}
+
+.flagFallbackText{
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-size: 0.55rem;
+  font-weight: 900;
+  letter-spacing: 0.5px;
+  line-height: 1;
+  color: var(--text);
+  z-index: 0;
+}
+
+.flagSvg{
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+}
+
+
 
 @media (max-width: 860px){
   /* esconde menu central no mobile */
